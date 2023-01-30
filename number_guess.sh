@@ -78,7 +78,6 @@ else
   GAMES_PLAYED=$($PSQL "SELECT games_played FROM users WHERE username='$USERNAME'")
   BEST_GAME=$($PSQL "SELECT best_game FROM users WHERE username='$USERNAME'")
 
-
   UPDATE_GAMES=$($PSQL "UPDATE users SET games_played=$(( ++GAMES_PLAYED )) WHERE username='$USERNAME'")
   if [[ $GUESSES -lt $BEST_GAME ]]
   then
