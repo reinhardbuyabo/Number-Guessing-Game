@@ -8,5 +8,6 @@ echo $RANDOM_NUMBER
 echo -e "Enter your username: "
 read USERNAME
 
-FETCH_USER=$($PSQL "SELECT * FROM number_guess WHERE username='$USERNAME'")
+FETCH_USER=$($PSQL "SELECT * FROM users WHERE username='$USERNAME'")
+echo $FETCH_USER
 
