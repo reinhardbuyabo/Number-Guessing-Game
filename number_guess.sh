@@ -18,7 +18,7 @@ then
   read USER_GUESS
 
   # GUESS
-  until [[ $USER_GUESS == $RANDOM_NUMBER ]]
+  until [[ $USER_GUESS -eq $RANDOM_NUMBER ]]
   do
   ((GUESSES++))
     if [[ $USER_GUESS =~ ^[0-9]+$ ]]
@@ -40,11 +40,7 @@ then
   echo "You guessed it in $GUESSES tries. The secret number was $RANDOM_NUMBER. Nice job!"
 
   INSERT_USER=$($PSQL "INSERT INTO users(username, games_played, best_game) VALUES ('$USERNAME', 1, $GUESSES)")
-  if [[ $INSERT_USER == "INSERT 0 1" ]]
-  then
-    echo $INSERT_USER
-    echo "Good first game!"
-  fi
+  
 
 else
   echo "$FETCH_USER" | while IFS='|' read UNAME USER_ID GAMES_PLAYED BEST_GAME
@@ -80,16 +76,13 @@ else
   echo "You guessed it in $GUESSES tries. The secret number was $RANDOM_NUMBER. Nice job!"
   
   GAMES_PLAYED=$($PSQL "SELECT games_played FROM users WHERE username='$USERNAME'")
-  echo $GAMES_PLAYED
   BEST_GAME=$($PSQL "SELECT best_game FROM users WHERE username='$USERNAME'")
 
 
   UPDATE_GAMES=$($PSQL "UPDATE users SET games_played=$(( ++GAMES_PLAYED )) WHERE username='$USERNAME'")
-  echo $UPDATE_GAMES
-  if [[ $GUESSES < $BEST_GAME ]]
+  if [[ $GUESSES -lt $BEST_GAME ]]
   then
     UPDATE_BEST=$($PSQL "UPDATE users SET best_game=$GUESSES WHERE username='$USERNAME'")
-    echo $UPDATE_BEST
   fi
 fi
 
