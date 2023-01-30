@@ -12,8 +12,7 @@ FETCH_USER=$($PSQL "SELECT * FROM users WHERE username='$USERNAME'")
 
 if [[ -z $FETCH_USER ]]
 then
-  # empty
-  echo "User empty"
+  echo -e "\nWelcome, $USERNAME! It looks like this is your first time here."
 else
   echo "$FETCH_USER" | while IFS='|' read NAME USER_ID GAMES_PLAYED BEST_GAME
   do
