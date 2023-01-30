@@ -11,6 +11,17 @@ read USERNAME
 FETCH_USER=$($PSQL "SELECT * FROM users WHERE username='$USERNAME'")
 echo $FETCH_USER
 
-echo "Welcome back, $USERNAME! You have played $GAMES_PLAYED games, and your best game took $BEST_GAME guesses."
-# GAMES_PLAYED=<total number of games that user has played>
-# BEST_GAME=<fewest number of guesses it took that user to win the game>
+if [[ -z $FETCH_USER ]]
+then
+  # Empty
+  echo "Empty"
+else
+  echo "$FETCH_USER" | while IFS='|' read USERNAME USER_ID GAMES_PLAYED BEST_GAME
+  do
+    echo "Welcome back, $USERNAME! You have played $GAMES_PLAYED games, and your best game took $BEST_GAME guesses."
+    # GAMES_PLAYED=<total number of games that user has played>
+    # BEST_GAME=<fewest number of guesses it took that user to win the game>
+  done
+fi
+
+
